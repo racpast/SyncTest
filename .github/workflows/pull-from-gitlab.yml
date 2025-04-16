@@ -2,7 +2,7 @@ name: Pull from GitLab
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -22,8 +22,13 @@ jobs:
       - name: Pull from GitLab
         run: |
           git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/SyncTest.git"
-          git pull gitlab main --allow-unrelated-histories
-          git push origin main
+          git fetch gitlab main
+          
+          git merge gitlab/main --allow-unrelated-histories --no-edit
+          
+          git push "https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/SyncTest.git" HEAD:main
         env:
           GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
