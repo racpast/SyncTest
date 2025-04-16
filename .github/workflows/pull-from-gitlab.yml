@@ -16,7 +16,7 @@ jobs:
 
       - name: Configure Git Identity
         run: |
-          git config --global user.email "racpast@gmail.com"
+          git config --global user.email "yaojun.mail@qq.com"
           git config --global user.name "racpast"
 
       - name: Sync from GitLab and Force Push
