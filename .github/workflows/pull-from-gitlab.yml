@@ -19,14 +19,14 @@ jobs:
           git config --global user.email "racpast@gmail.com"
           git config --global user.name "racpast"
 
-      - name: Pull from GitLab
+      - name: Sync from GitLab and Force Push
         run: |
           git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/SyncTest.git"
           git fetch gitlab main
           
-          git merge gitlab/main --allow-unrelated-histories --no-edit
+          git reset --hard gitlab/main
           
-          git push "https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/SyncTest.git" HEAD:main
+          git push "https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/SyncTest.git" HEAD:main --force
         env:
           GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
