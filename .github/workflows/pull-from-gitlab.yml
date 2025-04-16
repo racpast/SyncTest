@@ -21,7 +21,7 @@ jobs:
 
       - name: Pull from GitLab
         run: |
-          git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/test-pull-from-gitlab.git"
+          git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/SyncTest.git"
           git pull gitlab main --allow-unrelated-histories
           git push origin main
         env:
