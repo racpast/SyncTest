@@ -16,17 +16,15 @@ jobs:
 
       - name: Configure Git Identity
         run: |
-          git config --global user.email "yaojun.mail@qq.com"
+          git config --global user.email "racpast@gmail.com"
           git config --global user.name "racpast"
 
-      - name: Sync from GitLab and Force Push
+      - name: Pull from GitLab
         run: |
           git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/SyncTest.git"
           git fetch gitlab main
-          
-          git reset --hard gitlab/main
-          
-          git push "https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/SyncTest.git" HEAD:main --force
+          git merge gitlab/main --allow-unrelated-histories --no-edit       
+          git push "https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/SyncTest.git" HEAD:main
         env:
           GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
