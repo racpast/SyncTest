@@ -1,0 +1,29 @@
+name: Pull from GitLab
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "racpast@gmail.com"
+          git config --global user.name "racpast"
+
+      - name: Pull from GitLab
+        run: |
+          git remote add gitlab "https://$GITLAB_USERNAME:$GITLAB_TOKEN@gitlab.com/$GITLAB_USERNAME/test-pull-from-gitlab.git"
+          git pull gitlab main --allow-unrelated-histories
+          git push origin main
+        env:
+          GITLAB_USERNAME: ${{ secrets.GITLAB_USERNAME }}
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
